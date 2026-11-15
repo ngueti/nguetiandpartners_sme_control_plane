@@ -29,6 +29,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             </nav>
             <div className="flex items-center gap-3 text-[13px]">
               <span className="text-right leading-tight"><strong className="block text-[var(--navy)]">{u.name}</strong><span className="text-[var(--muted)]">{ROLE_LABELS[u.role]}{u.role !== "super_admin" && ` · ${u.countries.join(", ") || "—"}`}</span></span>
+              <Link href="/admin/mot-de-passe" className="font-semibold text-[var(--navy)] underline underline-offset-4">Mot de passe</Link>
               <form action={out}><button className="btn btn-line">Sortir</button></form>
             </div>
           </div>
