@@ -26,6 +26,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
               <Link href="/admin/soumissions" className="rounded-full px-3 py-2 hover:bg-[var(--mist)]">Soumissions</Link>
               {can(u, "users") && <Link href="/admin/utilisateurs" className="rounded-full px-3 py-2 hover:bg-[var(--mist)]">Équipe</Link>}
               {can(u, "audit") && <Link href="/admin/journal" className="rounded-full px-3 py-2 hover:bg-[var(--mist)]">Journal</Link>}
+              {can(u, "audit") && <Link href="/admin/emails" className="rounded-full px-3 py-2 hover:bg-[var(--mist)]">E-mails</Link>}
             </nav>
             <div className="flex items-center gap-3 text-[13px]">
               <span className="text-right leading-tight"><strong className="block text-[var(--navy)]">{u.name}</strong><span className="text-[var(--muted)]">{ROLE_LABELS[u.role]}{u.role !== "super_admin" && ` · ${u.countries.join(", ") || "—"}`}</span></span>

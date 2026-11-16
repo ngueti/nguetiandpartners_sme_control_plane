@@ -13,27 +13,45 @@ type Sub = {
   fileCount: number;
 };
 
-function layout(title: string, bodyHtml: string, preheader = "") {
-  return `<!doctype html><html lang="fr"><body style="margin:0;background:#f4f6f9;font-family:Segoe UI,Arial,sans-serif;color:#17283a">
-<span style="display:none;opacity:0;height:0;overflow:hidden">${esc(preheader)}</span>
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="padding:24px 12px"><tr><td align="center">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 6px 24px rgba(15,62,102,.10)">
-<tr><td style="background:${NAVY};padding:22px 28px">
-  <table role="presentation" width="100%"><tr>
-   <td><span style="display:inline-block;width:34px;height:34px;border-radius:50%;background:linear-gradient(90deg,#fadc2c,${ORANGE});vertical-align:middle;position:relative"><span style="display:block;width:24px;height:24px;border-radius:50%;background:${NAVY};margin:5px"></span></span>
-   <span style="color:#fff;font-weight:700;letter-spacing:.12em;font-size:15px;vertical-align:middle;margin-left:10px">NGUETI &amp; PARTNERS</span></td>
-  </tr></table></td></tr>
-<tr><td style="height:5px;background:linear-gradient(90deg,#fadc2c,${ORANGE})"></td></tr>
-<tr><td style="padding:30px 28px 8px"><h1 style="margin:0 0 14px;font-size:22px;color:${NAVY}">${esc(title)}</h1>${bodyHtml}</td></tr>
-<tr><td style="padding:18px 28px 28px;color:#6b7c8e;font-size:12px;border-top:1px solid #eef1f5">
-Ngueti &amp; Partners · N&amp;P SME Control Plane™<br>Cameroun · Côte d’Ivoire · Bénin<br>
-<a href="mailto:${GENERAL_EMAIL}" style="color:${NAVY}">${GENERAL_EMAIL}</a> · <a href="mailto:${SUPPORT_EMAIL}" style="color:${NAVY}">${SUPPORT_EMAIL}</a><br>
-<a href="${siteUrl()}" style="color:${NAVY}">${siteUrl().replace(/^https?:\/\//, "")}</a></td></tr>
-</table></td></tr></table></body></html>`;
+const FONT = "Segoe UI, Helvetica, Arial, sans-serif";
+const DISPLAY = "Trebuchet MS, Segoe UI, Arial, sans-serif";
+
+/** Bouton « pilule » aux couleurs N&P (tableau : compatible Outlook/Gmail). */
+export function emailButton(href: string, label: string) {
+  return `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:22px 0 6px"><tr><td bgcolor="#f5a623" style="border-radius:999px;background:#f5a623;background-image:linear-gradient(90deg,#fadc2c,#e97b02)">
+<a href="${href}" style="display:inline-block;padding:14px 30px;font-family:${DISPLAY};font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#082a47;text-decoration:none;border-radius:999px">${esc(label)}</a></td></tr></table>`;
 }
 
-const refBadge = (ref: string) =>
-  `<p style="margin:18px 0;padding:14px 18px;background:#fff7ec;border-left:4px solid ${ORANGE};border-radius:8px;font-size:15px">Votre numéro de dossier<br><strong style="font-size:20px;letter-spacing:.06em;color:${NAVY}">${esc(ref)}</strong></p>`;
+/** Gabarit commun de tous les e-mails automatiques : logo officiel, couleurs et signature de la charte N&P. */
+export function brandedEmail(title: string, bodyHtml: string, preheader = "") {
+  const site = siteUrl();
+  const offices = COUNTRIES.map((c) => `<a href="mailto:${c.email}" style="color:#ffffff;text-decoration:none"><strong style="color:#ffffff">${esc(c.name)}</strong>&nbsp;·&nbsp;${c.email}</a>`).join("<br>");
+  return `<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light only"><meta name="supported-color-schemes" content="light only"><title>${esc(title)}</title></head>
+<body style="margin:0;padding:0;background:#eef3f8;font-family:${FONT};color:#15283a">
+<span style="display:none;opacity:0;height:0;max-height:0;overflow:hidden;mso-hide:all">${esc(preheader)}</span>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" bgcolor="#eef3f8" style="background:#eef3f8"><tr><td align="center" style="padding:28px 12px">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:620px;border-radius:22px;overflow:hidden;background:#ffffff;box-shadow:0 10px 30px rgba(15,62,102,.14)">
+<tr><td bgcolor="#0f3e66" style="background:#0f3e66;padding:26px 32px 22px">
+  <a href="${site}" style="text-decoration:none"><img src="${site}/email/logo-on-dark.png" width="232" alt="Ngueti &amp; Partners" style="display:block;border:0;outline:none;width:232px;max-width:100%;height:auto"></a>
+  <div style="margin-top:14px;font-family:${DISPLAY};font-size:11px;letter-spacing:.22em;color:#fadc2c;text-transform:uppercase">N&amp;P SME Control Plane™</div>
+</td></tr>
+<tr><td height="6" bgcolor="#f5a623" style="height:6px;line-height:6px;font-size:0;background:#f5a623;background-image:linear-gradient(90deg,#fadc2c,#e97b02)">&nbsp;</td></tr>
+<tr><td style="padding:34px 32px 10px;font-family:${FONT};font-size:16px;line-height:1.65;color:#15283a">
+  <h1 style="margin:0 0 16px;font-family:${DISPLAY};font-size:23px;line-height:1.25;letter-spacing:.02em;color:#0f3e66;text-transform:uppercase">${esc(title)}</h1>
+  ${bodyHtml}
+</td></tr>
+<tr><td bgcolor="#082a47" style="background:#082a47;padding:26px 32px 28px;font-family:${FONT};font-size:12.5px;line-height:1.7;color:#c9d6e3">
+  <div style="font-family:${DISPLAY};font-size:10.5px;letter-spacing:.16em;color:#fadc2c;text-transform:uppercase;line-height:1.8">Architecturer · Co-construire<br>Orchestrer · Institutionnaliser<br>Changer d’échelle</div>
+  <div style="margin:16px 0 0;color:#ffffff">${offices}</div>
+  <div style="margin:12px 0 0"><a href="mailto:${GENERAL_EMAIL}" style="color:#c9d6e3">${GENERAL_EMAIL}</a> · <a href="mailto:${SUPPORT_EMAIL}" style="color:#c9d6e3">${SUPPORT_EMAIL}</a></div>
+  <div style="margin:16px 0 0;padding-top:14px;border-top:1px solid rgba(255,255,255,.18);font-size:11.5px;color:#8fa6bd">Vous recevez ce message suite à une demande faite sur <a href="${site}" style="color:#c9d6e3">${site.replace(/^https?:\/\//, "")}</a>. <a href="${site}/confidentialite" style="color:#c9d6e3">Confidentialité</a> · Ngueti &amp; Partners™</div>
+</td></tr>
+</table></td></tr></table></body></html>`;
+}
+const layout = brandedEmail;
+
+const refBadge = (ref: string, caption = "Votre numéro de dossier") =>
+  `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:20px 0"><tr><td bgcolor="#fff8ec" style="background:#fff8ec;border-left:5px solid ${ORANGE};border-radius:10px;padding:16px 20px;font-size:14px;color:#5d7186">${esc(caption)}<br><strong style="font-family:${DISPLAY};font-size:22px;letter-spacing:.08em;color:${NAVY}">${esc(ref)}</strong></td></tr></table>`;
 
 export function ackEmail(s: Sub): { subject: string; html: string; text: string } {
   const first = s.full_name.split(" ")[0];
@@ -48,14 +66,14 @@ export function ackEmail(s: Sub): { subject: string; html: string; text: string 
   const subject = `${s.form === "reclamation" ? "Réclamation reçue" : s.form === "documents" ? "Pièces reçues" : "Bien reçu"} · ${s.ref}`;
   const extra =
     s.form === "enrolement"
-      ? `<p style="margin:0 0 12px">Rappel de notre engagement : N&amp;P prend une participation d’au moins 25 %, annoncée dès le départ, avant tout audit. Nous ne promettons ni financement, ni contrat que nous ne maîtrisons pas.</p>`
+      ? `<p style="margin:0 0 12px">Rappel de notre engagement : N&amp;P prend une participation d’au moins 25&nbsp;%, annoncée dès le départ, avant tout audit. Nous ne promettons ni financement, ni contrat que nous ne maîtrisons pas.</p>`
       : "";
   const html = layout(
     `Merci ${first}, c’est bien reçu.`,
     `<p style="margin:0 0 12px;line-height:1.6">${esc(nextByForm[s.form])}</p>${refBadge(s.ref)}${extra}
-     <p style="margin:0 0 12px;line-height:1.6">Pour compléter votre dossier ou répondre à un échange, conservez ce numéro.${
-       s.form !== "documents" ? ` <a href="${siteUrl()}/documents" style="color:${NAVY};font-weight:600">Envoyer des pièces</a>` : ""
-     }</p>`,
+     <p style="margin:0 0 4px;line-height:1.6">Pour compléter votre dossier ou répondre à un échange, conservez ce numéro. Vous pouvez répondre directement à cet e-mail : il arrive dans la boîte du bureau de votre pays.</p>${
+       s.form !== "documents" ? emailButton(`${siteUrl()}/documents`, "Envoyer des pièces") : ""
+     }`,
     `Votre numéro de dossier : ${s.ref}`,
   );
   const text = `Merci ${first}.\n\n${nextByForm[s.form]}\n\nNuméro de dossier : ${s.ref}\n\nNgueti & Partners`;
@@ -67,18 +85,20 @@ export function teamEmail(s: Sub, adminUrl: string): { subject: string; html: st
   const rows = allFields(def)
     .filter((f) => f.type !== "file" && s.data[f.name] !== undefined && s.data[f.name] !== "" && f.name !== "consent")
     .map((f) => {
-      const v = Array.isArray(s.data[f.name]) ? s.data[f.name].join(", ") : s.data[f.name];
-      return `<tr><td style="padding:6px 10px;color:#6b7c8e;font-size:13px;vertical-align:top;width:38%">${esc(f.label.slice(0, 70))}</td><td style="padding:6px 10px;font-size:14px">${esc(v)}</td></tr>`;
+      const lab = (x: unknown) => f.options?.find((o) => o.value === x)?.label ?? (f.name === "country" ? countryName(String(x)) : String(x));
+      const v = Array.isArray(s.data[f.name]) ? s.data[f.name].map(lab).join(", ") : lab(s.data[f.name]);
+      const short = f.label.length > 58 ? f.label.slice(0, 58).replace(/\s+\S*$/, "") + "…" : f.label;
+      return `<tr><td style="padding:8px 12px;color:#5d7186;font-size:13px;vertical-align:top;width:38%;border-bottom:1px solid #e3e9f0">${esc(short)}</td><td style="padding:8px 12px;font-size:14px;border-bottom:1px solid #e3e9f0">${esc(v)}</td></tr>`;
     })
     .join("");
   const urgent = s.priority === "haute";
   const subject = `${urgent ? "🟠 URGENT · " : ""}[${FORM_LABELS[s.form]} · ${s.country}] ${s.company || s.full_name} · ${s.ref}`;
   const html = layout(
     `${FORM_LABELS[s.form]} — ${countryName(s.country)}`,
-    `${refBadge(s.ref)}
-     <table role="presentation" width="100%" style="border-collapse:collapse;background:#f8fafc;border-radius:10px">${rows}</table>
+    `${refBadge(s.ref, "Numéro de dossier")}
+     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;background:#f4f7fb;border-radius:12px">${rows}</table>
      <p style="margin:16px 0 4px;font-size:14px">📎 ${s.fileCount} pièce(s) jointe(s)</p>
-     <p style="margin:18px 0"><a href="${adminUrl}" style="background:${NAVY};color:#fff;padding:12px 20px;border-radius:999px;text-decoration:none;font-weight:600;display:inline-block">Ouvrir dans le back-office</a></p>
+     ${emailButton(adminUrl, "Ouvrir dans le back-office")}
      <p style="color:#6b7c8e;font-size:12px">Répondre à cet e-mail écrit directement au demandeur (${esc(s.email)}).</p>`,
     `${s.full_name} — ${s.ref}`,
   );
