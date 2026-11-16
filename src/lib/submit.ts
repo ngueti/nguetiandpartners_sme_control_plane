@@ -3,7 +3,7 @@ import { COUNTRY_CODES, siteUrl, type FormId } from "./config";
 import { FORMS, allFields, coreOf, type Field } from "./forms";
 import { q, q1 } from "./db";
 import { makeRef } from "./security";
-import { ackEmail, sendMail, teamAddress, teamEmail } from "./mail";
+import { ackEmail, officeEmail, sendMail, teamAddress, teamEmail } from "./mail";
 import { syncExternal } from "./integrations";
 
 const uuid = z.string().uuid();
@@ -138,7 +138,7 @@ export async function submitForm(
   await Promise.allSettled([
     (async () => {
       const a = ackEmail(sub);
-      await sendMail({ to: core.email, ...a, kind: "ack", submissionId: row!.id });
+      await sendMail({ to: core.email, ...a, replyTo: officeEmail(country), kind: "ack", submissionId: row!.id });
     })(),
     (async () => {
       const to = teamAddress(country);

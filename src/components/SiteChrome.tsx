@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Logo } from "./Logo";
+import { COUNTRIES, GENERAL_EMAIL, SUPPORT_EMAIL } from "../lib/config";
 
 const NAV = [
   { href: "/#parcours", label: "Parcours" },
@@ -91,9 +92,11 @@ export function Footer() {
         </nav>
         <nav aria-label="Bureaux" className="grid content-start gap-3 text-[15px]">
           <span className="display text-[11px] tracking-[.2em] text-[var(--yellow)]">Bureaux</span>
-          <Link href="/contact?pays=CM" className="hover:text-[var(--yellow)]">🇨🇲 Cameroun</Link>
-          <Link href="/contact?pays=CI" className="hover:text-[var(--yellow)]">🇨🇮 Côte d’Ivoire</Link>
-          <Link href="/contact?pays=BJ" className="hover:text-[var(--yellow)]">🇧🇯 Bénin</Link>
+          {COUNTRIES.map((c) => (
+            <a key={c.code} href={`mailto:${c.email}`} className="hover:text-[var(--yellow)]">{c.flag} {c.name}<span className="block text-[13px] text-white/55">{c.email}</span></a>
+          ))}
+          <a href={`mailto:${GENERAL_EMAIL}`} className="mt-1 text-[14px] text-white/70 hover:text-[var(--yellow)]">{GENERAL_EMAIL}</a>
+          <a href={`mailto:${SUPPORT_EMAIL}`} className="text-[14px] text-white/70 hover:text-[var(--yellow)]">{SUPPORT_EMAIL}</a>
         </nav>
       </div>
       <div className="wrap mt-12 flex flex-wrap items-center justify-between gap-3 border-t border-white/15 pt-6 text-[13px] text-white/55">

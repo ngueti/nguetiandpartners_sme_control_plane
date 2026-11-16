@@ -50,6 +50,9 @@ a { color: inherit; }
 ::selection { background: var(--yellow); color: var(--navy-deep); }
 
 @layer components {
+.legal a { color: var(--navy); text-decoration: underline; text-underline-offset: 3px; }
+.legal ul { margin: 0; padding-left: 1.25rem; display: grid; gap: .5rem; list-style: disc; }
+.legal p { margin: 0; }
 .wrap { width: min(1180px, 100% - 32px); margin-inline: auto; }
 .section { padding: clamp(64px, 10vw, 128px) 0; position: relative; }
 .eyebrow {

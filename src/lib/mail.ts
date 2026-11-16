@@ -1,5 +1,5 @@
 import { q } from "./db";
-import { FORM_LABELS, countryName, siteUrl, type FormId } from "./config";
+import { COUNTRIES, GENERAL_EMAIL, SUPPORT_EMAIL, FORM_LABELS, countryName, siteUrl, type FormId } from "./config";
 import { FORMS, allFields } from "./forms";
 
 const NAVY = "#0f3e66";
@@ -27,6 +27,7 @@ function layout(title: string, bodyHtml: string, preheader = "") {
 <tr><td style="padding:30px 28px 8px"><h1 style="margin:0 0 14px;font-size:22px;color:${NAVY}">${esc(title)}</h1>${bodyHtml}</td></tr>
 <tr><td style="padding:18px 28px 28px;color:#6b7c8e;font-size:12px;border-top:1px solid #eef1f5">
 Ngueti &amp; Partners · N&amp;P SME Control Plane™<br>Cameroun · Côte d’Ivoire · Bénin<br>
+<a href="mailto:${GENERAL_EMAIL}" style="color:${NAVY}">${GENERAL_EMAIL}</a> · <a href="mailto:${SUPPORT_EMAIL}" style="color:${NAVY}">${SUPPORT_EMAIL}</a><br>
 <a href="${siteUrl()}" style="color:${NAVY}">${siteUrl().replace(/^https?:\/\//, "")}</a></td></tr>
 </table></td></tr></table></body></html>`;
 }
@@ -84,6 +85,8 @@ export function teamEmail(s: Sub, adminUrl: string): { subject: string; html: st
   const text = `${FORM_LABELS[s.form]} ${s.ref}\n${s.full_name} <${s.email}>\n${adminUrl}`;
   return { subject, html, text };
 }
+
+export const officeEmail = (country: string) => COUNTRIES.find((c) => c.code === country)?.email ?? GENERAL_EMAIL;
 
 export const teamAddress = (country: string): string | null =>
   process.env[`TEAM_EMAIL_${country}`] || process.env.TEAM_EMAIL_DEFAULT || null;

@@ -173,6 +173,10 @@ export function FormRunner({ def, defaultCountry }: { def: FormDef; defaultCount
           </motion.fieldset>
         </AnimatePresence>
 
+        {s.fields.some((f) => f.name === "consent") && (
+          <p className="mt-5 text-[15px] text-[var(--muted)]">Vos données sont traitées par le bureau de votre pays, sans publicité ni revente. <Link href="/confidentialite" target="_blank" className="font-semibold text-[var(--navy)] underline underline-offset-4">Lire la politique de confidentialité</Link></p>
+        )}
+
         {banner && <p role="alert" className="mt-6 rounded-2xl bg-[#fde4e1] px-4 py-3 font-semibold text-[#a3281b]">{banner}</p>}
 
         <div className="sticky bottom-0 z-20 -mx-4 mt-8 flex items-center justify-between gap-3 border-t border-[var(--line)] bg-white/95 px-4 py-4 backdrop-blur sm:static sm:mx-0 sm:border-0 sm:bg-transparent sm:px-0" style={{ paddingBottom: "max(16px, env(safe-area-inset-bottom))" }}>

@@ -228,9 +228,9 @@ export function Community() {
 
 /* ───────── Pays ───────── */
 const OFFICES = [
-  { code: "CM", name: "Cameroun", city: "Douala · Yaoundé", flag: "🇨🇲", bg: "#0f3e66" },
-  { code: "CI", name: "Côte d’Ivoire", city: "Abidjan", flag: "🇨🇮", bg: "#1b5588" },
-  { code: "BJ", name: "Bénin", city: "Cotonou", flag: "🇧🇯", bg: "#082a47" },
+  { code: "CM", name: "Cameroun", city: "Douala · Yaoundé", flag: "🇨🇲", bg: "#0f3e66", email: "cm@nguetiandpartners.com" },
+  { code: "CI", name: "Côte d’Ivoire", city: "Abidjan", flag: "🇨🇮", bg: "#1b5588", email: "ci@nguetiandpartners.com" },
+  { code: "BJ", name: "Bénin", city: "Cotonou", flag: "🇧🇯", bg: "#082a47", email: "bj@nguetiandpartners.com" },
 ];
 
 export function Offices() {
@@ -250,6 +250,7 @@ export function Offices() {
               <span className="relative text-[44px]" aria-hidden="true">{o.flag}</span>
               <h3 className="relative mt-6 text-[20px]">{o.name}</h3>
               <p className="relative text-white/70">{o.city}</p>
+              <a href={`mailto:${o.email}`} className="relative mt-1 block break-all text-[14px] text-[var(--yellow)] underline underline-offset-4">{o.email}</a>
               <div className="relative mt-7 grid gap-2.5">
                 <Link href={`/rejoindre?pays=${o.code}`} className="btn btn-sun !min-h-[46px]">Candidater</Link>
                 <Link href={`/contact?pays=${o.code}`} className="btn btn-ghost !min-h-[46px]">Écrire au bureau</Link>

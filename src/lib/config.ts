@@ -1,8 +1,11 @@
 export const COUNTRIES = [
-  { code: "CM", name: "Cameroun", flag: "🇨🇲", city: "Douala · Yaoundé" },
-  { code: "CI", name: "Côte d’Ivoire", flag: "🇨🇮", city: "Abidjan" },
-  { code: "BJ", name: "Bénin", flag: "🇧🇯", city: "Cotonou" },
+  { code: "CM", name: "Cameroun", flag: "🇨🇲", city: "Douala · Yaoundé", email: "cm@nguetiandpartners.com" },
+  { code: "CI", name: "Côte d’Ivoire", flag: "🇨🇮", city: "Abidjan", email: "ci@nguetiandpartners.com" },
+  { code: "BJ", name: "Bénin", flag: "🇧🇯", city: "Cotonou", email: "bj@nguetiandpartners.com" },
 ] as const;
+
+export const GENERAL_EMAIL = "contact@nguetiandpartners.com";
+export const SUPPORT_EMAIL = "support@nguetiandpartners.com";
 
 export type CountryCode = (typeof COUNTRIES)[number]["code"];
 export const COUNTRY_CODES = COUNTRIES.map((c) => c.code) as unknown as [CountryCode, ...CountryCode[]];

@@ -5,7 +5,7 @@ import { requireUser, can, countryScope, audit } from "../../../../lib/auth";
 import { q, q1 } from "../../../../lib/db";
 import { COUNTRIES, FORM_LABELS, STATUSES, STATUS_VALUES, countryName, type FormId } from "../../../../lib/config";
 import { FORMS, allFields } from "../../../../lib/forms";
-import { sendMail } from "../../../../lib/mail";
+import { officeEmail, sendMail } from "../../../../lib/mail";
 
 export const dynamic = "force-dynamic";
 
@@ -66,7 +66,7 @@ export default async function Detail({ params, searchParams }: { params: Promise
     if (!cur || !text) return;
     const esc = (x: string) => x.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c]!);
     const html = `<div style="font-family:Segoe UI,Arial,sans-serif;color:#17283a;max-width:560px;line-height:1.6"><p>Bonjour ${esc(cur.full_name.split(" ")[0])},</p><p>${esc(text).replace(/\n/g, "<br>")}</p><p style="margin-top:24px">${esc(me.name)}<br><strong style="color:#0f3e66">Ngueti &amp; Partners</strong> · ${esc(countryName(cur.country))}</p><p style="color:#6b7c8e;font-size:12px;border-top:1px solid #eef1f5;padding-top:10px">Dossier ${esc(cur.ref)}</p></div>`;
-    const sent = await sendMail({ to: cur.email, subject: `Votre dossier ${cur.ref}`, html, text: `${text}\n\n${me.name} — Ngueti & Partners\nDossier ${cur.ref}`, replyTo: process.env[`TEAM_EMAIL_${cur.country}`] || process.env.TEAM_EMAIL_DEFAULT || undefined, kind: "reply", submissionId: id });
+    const sent = await sendMail({ to: cur.email, subject: `Votre dossier ${cur.ref}`, html, text: `${text}\n\n${me.name} — Ngueti & Partners\nDossier ${cur.ref}`, replyTo: officeEmail(cur.country), kind: "reply", submissionId: id });
     await q(`INSERT INTO submission_events (submission_id, actor, kind, payload) VALUES ($1,$2,'reply',$3::jsonb)`, [id, me.email, JSON.stringify({ text, sent })]);
     if (cur.status === "nouveau") await q(`UPDATE submissions SET status='en_cours', updated_at=now() WHERE id=$1`, [id]);
     redirect(`/admin/soumissions/${id}?ok=${sent ? "reponse" : "reponse_echec"}`);
