@@ -245,8 +245,8 @@ export function Offices() {
           {OFFICES.map((o, i) => (
             <motion.article key={o.code} {...reveal} transition={{ ...reveal.transition, delay: i * 0.1 }} whileHover={{ y: -8 }}
               className="relative overflow-hidden rounded-[30px] p-7 text-white" style={{ background: o.bg }}>
-              <motion.span aria-hidden="true" className="absolute -right-10 -top-10 h-44 w-44 rounded-full" style={{ background: "var(--sun)", opacity: 0.9 }} animate={{ scale: [1, 1.12, 1] }} transition={{ duration: 6, repeat: Infinity, delay: i }} />
-              <span className="absolute -right-4 -top-4 h-28 w-28 rounded-full" style={{ background: o.bg }} aria-hidden="true" />
+              <motion.span aria-hidden="true" className="absolute -right-12 -top-14 h-36 w-36 rounded-full sm:-right-10 sm:-top-10 sm:h-44 sm:w-44" style={{ background: "var(--sun)", opacity: 0.9 }} animate={{ scale: [1, 1.12, 1] }} transition={{ duration: 6, repeat: Infinity, delay: i }} />
+              <span className="absolute -right-5 -top-6 h-24 w-24 rounded-full sm:-right-4 sm:-top-4 sm:h-28 sm:w-28" style={{ background: o.bg }} aria-hidden="true" />
               <span className="relative text-[44px]" aria-hidden="true">{o.flag}</span>
               <h3 className="relative mt-6 text-[20px]">{o.name}</h3>
               <p className="relative text-white/70">{o.city}</p>

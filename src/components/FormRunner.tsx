@@ -210,7 +210,7 @@ function FieldView({ f, v, err, onChange, files, onFiles, onRemove }: {
   if (f.type === "radio")
     return (
       <div role="radiogroup" aria-label={f.label}>{label}
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-3">
+        <div className={`grid gap-3 ${f.options!.some((o) => o.hint) ? "grid-cols-[repeat(auto-fit,minmax(min(100%,210px),1fr))]" : "grid-cols-[repeat(auto-fit,minmax(min(100%,150px),1fr))]"}`}>
           {f.options!.map((o) => {
             const on = v === o.value;
             return (

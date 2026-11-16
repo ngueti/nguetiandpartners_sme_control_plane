@@ -111,12 +111,12 @@ export default function Page() {
           <div className="legal mt-10 grid gap-9">
             {sections.map((s) => (
               <section key={s.t}>
-                <h2 className="text-[19px] font-bold normal-case tracking-normal text-[var(--navy)]">{s.t}</h2>
+                <h2 className="text-[19px] font-bold normal-case leading-snug tracking-normal text-[var(--navy)]">{s.t}</h2>
                 <div className="mt-2 grid gap-3 text-[17px] leading-relaxed">{s.body}</div>
               </section>
             ))}
             <section>
-              <h2 className="text-[19px] font-bold normal-case tracking-normal text-[var(--navy)]">Selon votre pays</h2>
+              <h2 className="text-[19px] font-bold normal-case leading-snug tracking-normal text-[var(--navy)]">Selon votre pays</h2>
               <div className="mt-4 grid gap-5 md:grid-cols-3">
                 {countries.map((c) => {
                   const co = COUNTRIES.find((x) => x.code === c.code)!;
